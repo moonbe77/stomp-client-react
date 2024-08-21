@@ -3,7 +3,7 @@ import { useStompClient, useSubscription } from "react-stomp-hooks";
 
 interface Payload {
   event: "TYPING" | "NOT_TYPING";
-  name: string;
+  userName: string;
 }
 function Events({ chatId, url }: { chatId: number | null; url: string }) {
   const [eventType, setEventType] = useState<Payload["event"]>("TYPING");
@@ -13,8 +13,14 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
 
   useSubscription(`/topic/chat/typing/${chatId}`, (message) => {
     const payload: Payload = JSON.parse(message.body);
-
-    setEvents((prev) => [...prev, payload]);
+    const date = new Date();
+    setEvents((prev) => [
+      ...prev,
+      {
+        ...payload,
+        ts: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+      },
+    ]);
   });
 
   const handleSend = () => {
@@ -22,7 +28,7 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
     if (stompClient) {
       const payload: Payload = {
         event: eventType,
-        name: name,
+        userName: name,
       };
 
       stompClient.publish({
@@ -93,14 +99,20 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
 
       <div className="row">
         <div className="col-md-12">
-          {events.map((event) => {
-            return (
-              <div>
-                <div>{event.name}</div>
-                <div>{event.event}</div>
-              </div>
-            );
-          })}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column-reverse",
+            }}
+          >
+            {events.map((event) => {
+              return (
+                <div>
+                  {event.ts}:{event.userName}:{event.event}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
