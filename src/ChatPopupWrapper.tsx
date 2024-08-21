@@ -1,8 +1,6 @@
 import React from "react";
 import { StompSessionProvider } from "react-stomp-hooks";
 
-// const WS_URL = "wss://api-test.ivehub.com.au/app-phantom-api/v1/nt/websocket";
-
 function ChatPopupWrapper({
   children,
   chatId,
