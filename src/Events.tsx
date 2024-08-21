@@ -6,7 +6,7 @@ interface Payload {
   chatId: number;
   event: "TYPING" | "NOT_TYPING";
 }
-function Events({ chatId }: { chatId: number | null }) {
+function Events({ chatId, url }: { chatId: number | null; url: string }) {
   const [eventType, setEventType] = useState<string>("TYPING");
   const [events, setEvents] = useState<Payload[]>([]);
   const stompClient = useStompClient();
@@ -44,8 +44,11 @@ function Events({ chatId }: { chatId: number | null }) {
   return (
     <div>
       <h5>
-        {stompClient?.active ? "CONNECTED" : "DISCONNECTED"}{" "}
-        {chatId && `:${chatId}`}
+        {stompClient?.connected ? "CONNECTED" : "DISCONNECTED"}
+        {" to "}
+        {url && `> ${url}`}
+        <br />
+        {chatId && `chat id:${chatId}`}
       </h5>
       <div className="col-md-6">
         <form
