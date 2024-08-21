@@ -58,8 +58,9 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
             handleSend();
           }}
         >
-          <div className="form-group">
+          <div className="row">
             <label>EVENT to send TYPING | NOT_TYPING</label>
+
             <select
               className="form-control"
               onChange={(e) => setEventType(e.target.value)}
@@ -69,6 +70,9 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
               <option value="NOT_TYPING">NOT TYPING</option>
             </select>
           </div>
+          <code>
+            {`"ts":"timestamp now","chatId":${chatId},"event":"${eventType}"`}
+          </code>
           <button id="send" className="btn btn-default" type="submit">
             Send
           </button>

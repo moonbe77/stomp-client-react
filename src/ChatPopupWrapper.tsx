@@ -1,24 +1,25 @@
 import React from "react";
 import { StompSessionProvider } from "react-stomp-hooks";
 
-const token = "123456";
 // const WS_URL = "wss://api-test.ivehub.com.au/app-phantom-api/v1/nt/websocket";
 
 function ChatPopupWrapper({
   children,
   chatId,
   url,
+  token,
 }: {
   children: React.ReactNode;
   chatId: number | null;
   url: string;
+  token: string;
 }) {
   const enableWSConnection = Boolean(chatId) && Boolean(url);
 
   return (
     <StompSessionProvider
       url={url}
-      enabled={enableWSConnection && !!token && !!chatId}
+      enabled={enableWSConnection && !!chatId}
       connectHeaders={{
         token: token ?? "",
       }}

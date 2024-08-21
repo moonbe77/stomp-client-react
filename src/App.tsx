@@ -8,6 +8,7 @@ function App() {
   const refUrl = useRef<HTMLInputElement>(null);
   const [chatId, setChatId] = useState<number | null>(null);
   const [url, setUrl] = useState("");
+  const [token, setToken] = useState("");
 
   const handleConnect = () => {
     if (ref.current && refUrl.current) {
@@ -25,10 +26,10 @@ function App() {
   };
 
   return (
-    <ChatPopupWrapper chatId={chatId} url={url}>
+    <ChatPopupWrapper chatId={chatId} url={url} token={token}>
       <div id="main-content" className="container">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-sm-12">
             <form
               className="form"
               onSubmit={(e) => {
@@ -37,42 +38,71 @@ function App() {
               }}
             >
               <h4>WebSocket connection:</h4>
-
               <div
-                className="form-group col-sm-12"
+                className="form-group"
                 style={{
                   display: "flex",
                   gap: 4,
                 }}
               >
-                <label>ws url</label>
-                <input
-                  ref={refUrl}
-                  type="string"
-                  id="url"
-                  className="form-control"
-                  placeholder="connection url"
-                />
-                <label>chat id</label>
-                <input
-                  ref={ref}
-                  type="number"
-                  id="chat_id"
-                  className="form-control"
-                  placeholder="chat id"
-                  // onChange={(e) => setChatId(Number(e.target.value))}
-                />
-                <button id="connect" className="btn btn-default" type="submit">
-                  Connect
-                </button>
-                <button
-                  id="disconnect"
-                  className="btn btn-default"
-                  type="button"
-                  onClick={() => setChatId(null)}
-                >
-                  Disconnect
-                </button>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <label>ws url</label>
+                    <input
+                      ref={refUrl}
+                      type="string"
+                      id="url"
+                      className="form-control"
+                      placeholder="connection url"
+                    />
+                  </div>
+                  <div className="col-sm-12">
+                    <label>chat id</label>
+                    <input
+                      ref={ref}
+                      type="number"
+                      id="chat_id"
+                      className="form-control"
+                      placeholder="chat id"
+                    />
+                  </div>
+                  <div className="col-sm-12">
+                    <label>token</label>
+                    <input
+                      ref={ref}
+                      type="string"
+                      id="token"
+                      className="form-control"
+                      placeholder="token"
+                      onChange={(e) => setToken(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-sm-12">
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 16,
+                        marginTop: 16,
+                      }}
+                    >
+                      <button
+                        id="connect"
+                        className="btn btn-default"
+                        type="submit"
+                      >
+                        Connect
+                      </button>
+                      <button
+                        id="disconnect"
+                        className="btn btn-default"
+                        type="button"
+                        onClick={() => setChatId(null)}
+                      >
+                        Disconnect
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
