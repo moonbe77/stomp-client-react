@@ -9,6 +9,7 @@ function App() {
   const [chatId, setChatId] = useState<number | null>(null);
   const [url, setUrl] = useState("");
   const [token, setToken] = useState("");
+  console.log({ token });
 
   const handleConnect = () => {
     if (ref.current && refUrl.current) {
@@ -69,7 +70,6 @@ function App() {
                   <div className="col-sm-12">
                     <label>token</label>
                     <input
-                      ref={ref}
                       type="string"
                       id="token"
                       className="form-control"
