@@ -1,14 +1,26 @@
 import { useState } from "react";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 
+export enum CHAT_EVENTS {
+  "TYPING" = "TYPING",
+  "STOP_TYPING" = "STOP_TYPING",
+  "CHAT_OPENED" = "CHAT_OPENED",
+  "CHAT_CLOSED" = "CHAT_CLOSED",
+}
+
 interface Payload {
-  event: "TYPING" | "NOT_TYPING";
+  event: CHAT_EVENTS;
   userName: string;
 }
+
+type Event = Payload & { ts: string };
+
 function Events({ chatId, url }: { chatId: number | null; url: string }) {
-  const [eventType, setEventType] = useState<Payload["event"]>("TYPING");
+  const [eventType, setEventType] = useState<Payload["event"]>(
+    CHAT_EVENTS.TYPING
+  );
   const [name, setName] = useState<string>("DEMO NAME");
-  const [events, setEvents] = useState<Payload[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const stompClient = useStompClient();
 
   useSubscription(`/topic/chat/typing/${chatId}`, (message) => {
@@ -24,7 +36,6 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
   });
 
   const handleSend = () => {
-    console.log("CLICK SEND", stompClient);
     if (stompClient) {
       const payload: Payload = {
         event: eventType,
@@ -64,21 +75,6 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
           >
             <div className="row from-group">
               <div className="col-sm-6">
-                <label>EVENT</label>
-                <br />
-
-                <select
-                  className="form-control"
-                  onChange={(e) =>
-                    setEventType(e.target.value as Payload["event"])
-                  }
-                  value={eventType}
-                >
-                  <option value="TYPING">TYPING</option>
-                  <option value="NOT_TYPING">NOT TYPING</option>
-                </select>
-              </div>
-              <div className="col-sm-6">
                 <label>Name</label>
                 <br />
                 <input
@@ -88,21 +84,43 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
                   type="text"
                 />
               </div>
+              <div className="col-sm-12">
+                <h6>SEND EVENTS</h6>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 8,
+                    marginBottom: 8,
+                  }}
+                >
+                  {Object.keys(CHAT_EVENTS).map((key) => {
+                    return (
+                      <button
+                        className="btn btn-primary m-2"
+                        key={key}
+                        onClick={() => setEventType(key as Payload["event"])}
+                      >
+                        {key}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
           <code>{`"chatId":${name},"event":"${eventType}"`}</code>
-          <button id="send" className="btn btn-default" type="submit">
-            Send
-          </button>
         </form>
       </div>
 
       <div className="row">
         <div className="col-md-12">
+          <h5>Subscribed Events</h5>
           <div
             style={{
               display: "flex",
               flexDirection: "column-reverse",
+              marginTop: 8,
             }}
           >
             {events.map((event) => {
