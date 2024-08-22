@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
-
-export enum CHAT_EVENTS {
-  "TYPING" = "TYPING",
-  "STOP_TYPING" = "STOP_TYPING",
-  "CHAT_OPENED" = "CHAT_OPENED",
-  "CHAT_CLOSED" = "CHAT_CLOSED",
-}
+import { CHAT_EVENTS } from "./enums";
 
 interface Payload {
   event: CHAT_EVENTS;
@@ -51,14 +45,14 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
 
   return (
     <div>
-      <h5>
+      <h6>
         {stompClient?.connected ? "CONNECTED" : "DISCONNECTED"}
         {" to "}
         {url && `> ${url}`}
         <br />
         {chatId && `chat id:${chatId}`}
-      </h5>
-      <div className="col-md-6">
+      </h6>
+      <div className="col-md-12">
         <form
           className="form-inline"
           onSubmit={(e) => {
@@ -115,7 +109,12 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
 
       <div className="row">
         <div className="col-md-12">
-          <h5>Subscribed Events</h5>
+          <h5>
+            Subscribed Events
+            <button className="btn ml-2" onClick={() => setEvents([])}>
+              clear
+            </button>
+          </h5>
           <div
             style={{
               display: "flex",

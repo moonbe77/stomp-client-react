@@ -1,0 +1,6 @@
+export enum CHAT_EVENTS {
+  "TYPING" = "TYPING",
+  "STOP_TYPING" = "STOP_TYPING",
+  "CHAT_OPENED" = "CHAT_OPENED",
+  "CHAT_CLOSED" = "CHAT_CLOSED",
+}

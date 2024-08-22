@@ -57,7 +57,7 @@ function App() {
                       placeholder="connection url"
                     />
                   </div>
-                  <div className="col-sm-12">
+                  <div className="col-sm-4">
                     <label>chat id</label>
                     <input
                       ref={ref}
@@ -67,10 +67,9 @@ function App() {
                       placeholder="chat id"
                     />
                   </div>
-                  <div className="col-sm-12">
+                  <div className="col-sm-8">
                     <label>token</label>
-                    <input
-                      type="string"
+                    <textarea
                       id="token"
                       className="form-control"
                       placeholder="token"
@@ -81,20 +80,22 @@ function App() {
                     <div
                       style={{
                         display: "flex",
+                        justifyContent: "end",
                         gap: 16,
                         marginTop: 16,
+                        marginBottom: 16,
                       }}
                     >
                       <button
                         id="connect"
-                        className="btn btn-default"
+                        className="btn btn-success"
                         type="submit"
                       >
                         Connect
                       </button>
                       <button
                         id="disconnect"
-                        className="btn btn-default"
+                        className="btn btn-warning"
                         type="button"
                         onClick={() => setChatId(null)}
                       >
@@ -106,7 +107,7 @@ function App() {
               </div>
             </form>
           </div>
-          <hr />
+
           <Events chatId={chatId} url={url} />
         </div>
       </div>
