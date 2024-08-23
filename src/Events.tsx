@@ -78,14 +78,16 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
                   type="text"
                 />
               </div>
-              <div className="col-sm-12">
+              <div className="col-sm-12 mt-4">
                 <h6>SEND EVENTS</h6>
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    gap: 8,
-                    marginBottom: 8,
+                    justifyContent: "space-around",
+                    flexWrap: "wrap",
+                    gap: 2,
+                    marginBottom: 4,
                   }}
                 >
                   {Object.keys(CHAT_EVENTS).map((key) => {
@@ -119,6 +121,7 @@ function Events({ chatId, url }: { chatId: number | null; url: string }) {
             style={{
               display: "flex",
               flexDirection: "column-reverse",
+              flexWrap: "wrap",
               marginTop: 8,
             }}
           >
